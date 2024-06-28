@@ -1,0 +1,76 @@
+Three Ways to Connect to Anapico Frequency Synthesizer (APSYN420)
+
+Method 1: From Linux Computer or Raspberry Pi using USB
+
+sudo apt-get install libusb-1.0-0-dev
+sudo groupadd usbtmc
+sudo usermod -a -G usbtmc user_name
+pip3 install pyusb
+pip3 install python-usbtmc
+cd /etc/udev/rules.d/
+sudo gedit usbtmc.rules
+Add the following:
+# USBTMC instruments
+SUBSYSTEMS=="usb", ACTION=="add", ATTRS{idVendor}=="03eb", ATTRS{idProduct}=="afff", GROUP="usbtmc", MODE="0660"
+sudo reboot
+ipython -i AnapicoApsyn420.py
+
+Method 2: From Windows Computer using USB
+
+Download NI-VISA to your computer and install
+https://www.ni.com/fr-fr/support/downloads/drivers/download.ni-visa.html#409839
+
+Install PyVISA, pip install PyVISA and install
+
+Connect your computer and APSYN420 using a USB cable
+Open Python, and type:
+
+import pyvisa
+rm = pyvisa.ResourceManager()
+list = rm.list_resources()
+print(list)
+
+('USB0::0x03EB::0xAFFF::321-03A100000-0364::INSTR',)
+
+
+
+inst = rm.open_resource("")
+print(inst.query("*IDN?")
+AnaPico AG,APSYN420,321-03A100000-0364,0.4.117
+
+Method 3: From Windows Computer using Ethernet
+
+Download NI-VISA to your computer and install
+https://www.ni.com/fr-fr/support/downloads/drivers/download.ni-visa.html#409839
+
+Install PyVISA, pip install PyVISA and install
+
+Connect you computer to a router
+Connect APSYN420 also to the same router
+Open command prompt in you computer
+Type "ipconfig" for getting your own IP address
+Type "arp -a" to display all active IP address connected to router
+Look for IP address corresponds to MAC ID, 8c-8e-76-00-d4-7f
+# Internet Address      Physical Address      Type
+# 192.168.1.105         8c-8e-76-00-d4-7f     dynamic
+Open Python, and type:
+
+import pyvisa
+rm = pyvisa.ResourceManager()
+list = rm.list_resources()
+print(list)
+
+('TCPIP0::192.168.1.105::inst0::INSTR',)
+
+inst = rm.open_resource("TCPIP0::192.168.1.105::inst0::INSTR")
+print(inst.query("*IDN?"))
+
+AnaPico AG,APSYN420,321-03A100000-0364,0.4.117
+
+
+
+
+
+
+
+
