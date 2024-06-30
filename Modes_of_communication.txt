@@ -1,6 +1,7 @@
 Three Ways to Connect to Anapico Frequency Synthesizer (APSYN420)
 
 Method 1: From Linux Computer or Raspberry Pi using USB
+-------------------------------------------------------
 
 sudo apt-get install libusb-1.0-0-dev
 sudo groupadd usbtmc
@@ -16,6 +17,7 @@ sudo reboot
 ipython -i AnapicoApsyn420.py
 
 Method 2: From Windows Computer using USB
+-----------------------------------------
 
 Download NI-VISA to your computer and install
 https://www.ni.com/fr-fr/support/downloads/drivers/download.ni-visa.html#409839
@@ -39,6 +41,7 @@ print(inst.query("*IDN?")
 AnaPico AG,APSYN420,321-03A100000-0364,0.4.117
 
 Method 3: From Windows Computer using Ethernet
+----------------------------------------------
 
 Download NI-VISA to your computer and install
 https://www.ni.com/fr-fr/support/downloads/drivers/download.ni-visa.html#409839
